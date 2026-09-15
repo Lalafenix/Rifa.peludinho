@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rifa do Peludinho — Ajude na recuperação dele 🐾</title>
+<meta name="description" content="Ele sobreviveu a um acidente e agora precisa da nossa ajuda. Participe da rifa do Peludinho e contribua com a recuperação dele.">
+<meta property="og:title" content="Rifa do Peludinho 🐾">
+<meta property="og:description" content="Ele sobreviveu a um acidente e agora precisa da nossa ajuda para continuar se recuperando.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  
+.sheet-panel {
+  margin-top: 28px;
+  background: #fff;
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(61,35,20,.15);
+}
+
+.sheet-panel h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+#sheet-status {
+  font-size: 13px;
+  color: #6B4A34;
+  margin-bottom: 18px;
+}
+
+.sheet-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #E8D7C3;
+  border-radius: 14px;
+}
+
+.sheet-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.sheet-table th,
+.sheet-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid #F0E4D6;
+  font-size: 14px;
+}
+
+.sheet-table th {
+  background: #FBE8C8;
+  font-family: 'Fredoka', sans-serif;
+}
+
+.sheet-table tr:last-child td {
+  border-bottom: none;
+}
+
+.status-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.status-pill.sold {
+  background: #F8D0D0;
+  color: #9D2F2F;
+}
+
+.status-pill.available {
+  background: #DDF0D6;
+  color: #2C4A22;
+}
+  :root{
+    --bg-1:#F4A65E;
+    --bg-2:#F8CB98;
+    --cream:#FBE8C8;
+    --cream-2:#FFF6E8;
+    --ink:#3D2314;
+    --ink-soft:#6B4A34;
+    --accent:#E8823D;
+    --accent-dark:#C96A2B;
+    --sold:#D94F4F;
+    --whats:#25D366;
+    --white:#ffffff;
+    --radius-lg:28px;
+    --radius-md:18px;
+    --shadow:0 10px 30px rgba(61,35,20,.15);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--cream-2);
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    margin:0;
+    line-height:1.15;
+  }
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+  section{padding:88px 0;}
+  .paws-row{display:flex;gap:10px;justify-content:center;opacity:.5;font-size:20px;margin-bottom:18px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:16px 30px;border-radius:999px;
+    font-family:'Fredoka',sans-serif;font-weight:600;font-size:17px;
+    text-decoration:none;border:none;cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 20px rgba(232,130,61,.4);}
+  .btn-primary:hover{background:var(--accent-dark);}
+  .btn-ghost{background:#fff;color:var(--ink);border:2px solid var(--ink);}
+  .btn-whats{background:var(--whats);color:#fff;box-shadow:0 8px 20px rgba(37,211,102,.4);}
+
+  /* HERO */
+  #hero{
+    background:linear-gradient(160deg,var(--bg-1),var(--bg-2));
+    padding:64px 0 100px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;}
+  .eyebrow-badge{
+    display:inline-block;background:rgba(255,255,255,.6);
+    color:var(--ink);padding:8px 18px;border-radius:999px;
+    font-size:14px;font-weight:600;margin-bottom:20px;
+  }
+  #hero h1{font-size:clamp(34px,4.6vw,54px);color:var(--ink);}
+  #hero p.lede{font-size:19px;color:var(--ink-soft);margin:20px 0 32px;max-width:46ch;}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;}
+  .trust-line{margin-top:22px;font-size:15px;color:var(--ink-soft);font-weight:600;}
+  .photo-frame{
+    background:var(--cream);border-radius:var(--radius-lg);
+    aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow);border:6px solid #fff;
+    position:relative;overflow:hidden;
+  }
+  .photo-placeholder{text-align:center;color:var(--ink-soft);padding:30px;}
+  .photo-placeholder .icon{font-size:52px;margin-bottom:10px;}
+
+  /* STORY */
+  #story{background:var(--cream-2);}
+  .section-head{text-align:center;max-width:620px;margin:0 auto 48px;}
+  .section-head h2{font-size:clamp(28px,3.4vw,38px);}
+  .story-card{
+    background:var(--cream);border-radius:var(--radius-lg);
+    padding:44px;box-shadow:var(--shadow);
+    display:grid;grid-template-columns:220px 1fr;gap:36px;align-items:center;
+  }
+  .story-photo{
+    background:#fff;border-radius:var(--radius-md);aspect-ratio:1/1;
+    display:flex;align-items:center;justify-content:center;font-size:44px;
+    box-shadow:0 6px 16px rgba(61,35,20,.1);overflow:hidden;
+  }
+  .story-text p{font-size:16.5px;color:var(--ink-soft);margin:0 0 14px;}
+
+  /* PRIZES */
+  #prizes{background:linear-gradient(180deg,var(--bg-2),var(--cream-2));}
+  .prize-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;}
+  .prize-card{
+    background:#fff;border-radius:var(--radius-lg);padding:26px;
+    box-shadow:var(--shadow);text-align:left;
+  }
+  .prize-badge{
+    display:inline-block;background:var(--accent);color:#fff;
+    font-family:'Fredoka',sans-serif;font-weight:600;font-size:14px;
+    padding:6px 16px;border-radius:999px;margin-bottom:16px;
+  }
+  .prize-photo{
+    background:var(--cream);border-radius:var(--radius-md);
+    aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;
+    font-size:38px;margin-bottom:16px;overflow:hidden;
+  }
+  .prize-card h3{font-size:20px;}
+  .prize-card p{color:var(--ink-soft);font-size:14.5px;margin:6px 0 0;}
+  .urgency-note{
+    text-align:center;margin-top:36px;font-family:'Fredoka',sans-serif;
+    font-weight:600;font-size:19px;color:var(--ink);
+  }
+
+  /* RAFFLE */
+  #raffle{background:var(--cream-2);}
+  .price-strip{
+    background:var(--accent);color:#fff;border-radius:var(--radius-md);
+    padding:18px 26px;display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:12px;margin-bottom:28px;font-family:'Fredoka',sans-serif;
+  }
+  .price-strip .value{font-size:26px;font-weight:700;}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:20px;font-size:14px;color:var(--ink-soft);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:12px;height:12px;border-radius:4px;display:inline-block;}
+  .dot.avail{background:#BFE3B4;}
+  .dot.selected{background:var(--accent);}
+  .dot.sold{background:var(--sold);}
+
+  .number-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));
+    gap:8px;background:var(--cream);border-radius:var(--radius-md);
+    padding:20px;box-shadow:var(--shadow);
+    max-height:420px;overflow-y:auto;
+  }
+  .num-btn{
+    aspect-ratio:1/1;border-radius:10px;border:none;cursor:pointer;
+    font-family:'Fredoka',sans-serif;font-weight:600;font-size:13px;
+    background:#BFE3B4;color:#2C4A22;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .1s ease;
+  }
+  .num-btn:hover:not(:disabled){transform:scale(1.06);}
+  .num-btn.selected{background:var(--accent);color:#fff;}
+  .num-btn.sold{
+    background:var(--sold);color:#fff;opacity:.55;cursor:not-allowed;
+    text-decoration:line-through;
+  }
+
+  .selection-summary{
+    position:sticky;bottom:16px;margin-top:20px;
+    background:#fff;border-radius:var(--radius-md);padding:20px 24px;
+    box-shadow:var(--shadow);display:flex;justify-content:space-between;
+    align-items:center;flex-wrap:wrap;gap:16px;
+  }
+  .selection-summary .nums{font-size:14px;color:var(--ink-soft);max-width:60ch;}
+  .selection-summary .total{font-family:'Fredoka',sans-serif;font-weight:700;font-size:22px;}
+
+  /* STEPS */
+  #steps{background:linear-gradient(180deg,var(--cream-2),var(--bg-2));}
+  .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .step-card{background:#fff;border-radius:var(--radius-lg);padding:30px;box-shadow:var(--shadow);}
+  .step-num{
+    width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:'Fredoka',sans-serif;
+    font-weight:700;margin-bottom:16px;
+  }
+  .step-card h3{font-size:18px;margin-bottom:8px;}
+  .step-card p{color:var(--ink-soft);font-size:14.5px;margin:0;}
+
+  /* TRANSPARENCY */
+  #transparency{background:var(--cream-2);}
+  .transparency-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:12px;}
+  .stat-card{background:var(--cream);border-radius:var(--radius-md);padding:26px;text-align:center;}
+  .stat-card .num{font-family:'Fredoka',sans-serif;font-weight:700;font-size:28px;color:var(--accent-dark);}
+  .stat-card .label{font-size:14px;color:var(--ink-soft);margin-top:6px;}
+  .progress-wrap{margin-top:24px;}
+  .progress-track{
+    width:100%;height:14px;border-radius:999px;background:var(--cream);
+    overflow:hidden;box-shadow:inset 0 1px 3px rgba(61,35,20,.15);
+  }
+  .progress-fill{
+    height:100%;background:var(--accent);border-radius:999px;
+    width:0%;transition:width .6s ease;
+  }
+  .progress-label{margin-top:10px;text-align:center;font-size:14px;color:var(--ink-soft);font-weight:600;}
+  .proof-note{
+    margin-top:24px;background:#fff;border:2px dashed #E3C9A6;border-radius:var(--radius-md);
+    padding:20px;font-size:14px;color:var(--ink-soft);text-align:center;
+  }
+
+
+  .proof-gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px;}
+  .proof-gallery img{width:100%;height:230px;object-fit:contain;background:#fff;border-radius:12px;padding:4px;}
+  @media(max-width:820px){.proof-gallery{grid-template-columns:repeat(2,1fr);}.proof-gallery img{height:190px;}}
+
+  /* GALLERY */
+  #gallery{background:linear-gradient(180deg,var(--cream-2),var(--bg-2));}
+  .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .gallery-item{
+    background:var(--cream);border-radius:var(--radius-md);aspect-ratio:1/1;
+    display:flex;align-items:center;justify-content:center;color:var(--ink-soft);
+    font-size:13px;text-align:center;padding:14px;box-shadow:0 6px 16px rgba(61,35,20,.08);
+  }
+
+  /* FINAL CTA */
+  #final{
+    background:var(--accent);color:#fff;text-align:center;
+  }
+  #final h2{font-size:clamp(28px,3.6vw,40px);color:#fff;}
+  #final p{max-width:52ch;margin:16px auto 32px;color:rgba(255,255,255,.92);font-size:17px;}
+  #final .actions{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;}
+  #final .btn-ghost{background:transparent;border-color:#fff;color:#fff;}
+
+  /* FOOTER */
+  footer{background:var(--ink);color:#F3E4D0;padding:56px 0 36px;}
+  .footer-grid{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;}
+  #qrcode{background:#fff;padding:10px;border-radius:12px;display:inline-block;}
+  .legal{font-size:12.5px;color:#C9B49A;max-width:60ch;margin-top:18px;line-height:1.6;}
+
+  @media (max-width:820px){
+    .hero-grid{grid-template-columns:1fr;}
+    .photo-frame{order:-1;aspect-ratio:16/10;}
+    .story-card{grid-template-columns:1fr;}
+    .story-photo{aspect-ratio:16/9;}
+    .steps-grid{grid-template-columns:1fr;}
+    .transparency-grid{grid-template-columns:1fr 1fr;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .footer-grid{grid-template-columns:1fr;text-align:center;}
+    section{padding:60px 0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+
+  /* ABA DE PARTICIPANTES */
+  .tabs-nav{
+    background:#fff;
+    padding:16px 0;
+    box-shadow:0 4px 15px rgba(61,35,20,.08);
+    position:sticky;
+    top:0;
+    z-index:20;
+  }
+  .tabs-nav .wrap{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+  }
+  .tab-btn{
+    padding:12px 24px;
+    border-radius:999px;
+    border:2px solid var(--accent);
+    background:#fff;
+    color:var(--accent-dark);
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .tab-btn.active{
+    background:var(--accent);
+    color:#fff;
+  }
+  #participants-tab{
+    display:none;
+    background:var(--cream-2);
+    min-height:100vh;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- tabela movida para a aba Participantes -->
+<!-- ======================================================
+     CONFIG — edite os dados da rifa aqui e no <script> abaixo
+     ====================================================== -->
+<!-- ======================================================
+     CONFIG — edite os dados da rifa aqui e no <script> abaixo
+     ====================================================== -->
+
+
+<nav class="tabs-nav">
+  <div class="wrap">
+    <button class="tab-btn active" onclick="openTab('home', this)">🐾 Rifa</button>
+    <button class="tab-btn" onclick="openTab('participants-tab', this)">📋 Participantes</button>
+  </div>
+</nav>
+
+<section id="participants-tab">
+  <div class="wrap">
+    <div class="sheet-panel">
+      <h3>📋 Tabela de números</h3>
+      <p id="sheet-status">Carregando dados da planilha...</p>
+      <div class="sheet-table-wrap">
+        <table class="sheet-table">
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Participante</th>
+              <th>Contato</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="sheet-table-body">
+            <tr><td colspan="4">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="home">\n<section id="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow-badge">Rifa beneficente 🐾</span>
+      <h1>Uma segunda chance para o nosso peludinho</h1>
+      <p class="lede">Ele sobreviveu a um acidente e agora precisa da nossa ajuda para continuar se recuperando.</p>
+      <div class="hero-actions">
+        <a href="#raffle" class="btn btn-primary">Quero participar da rifa</a>
+        <a href="#help" class="btn btn-ghost">Quero ajudar</a>
+      </div>
+      <p class="trust-line">Cada contribuição faz a diferença. ❤️</p>
+    </div>
+    <div class="photo-frame">
+      <img src="assets/atualizacao.jpg" alt="Peludinho, o gatinho resgatado, se recuperando após a cirurgia" style="width:100%;height:100%;object-fit:cover;border-radius:calc(var(--radius-lg) - 6px);">
+    </div>
+  </div>
+</section>
+
+<section id="story">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Conheça a história dele</h2>
+    </div>
+    <div class="story-card">
+      <div class="story-photo"><img src="assets/gatinho-close.jpg" alt="Peludinho ainda pequeno, pouco antes do acidente" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></div>
+      <div class="story-text">
+        <p>Estou fazendo uma rifa para ajudar nos custos do nosso peludinho, que sofreu um acidente envolvendo um caminhão e precisou passar por cirurgia.</p>
+        <p>Eu socorri e levei ele para receber atendimento veterinário. Felizmente, ele está sendo cuidado e, no momento, está comigo como lar temporário. 🥺🐱</p>
+        <p>Agora estou arcando com as despesas do tratamento e da cirurgia, que ficaram bem altas. Por isso, resolvi fazer essa rifa para conseguir uma ajudinha com os custos.</p>
+        <p><strong>Quem puder participar ou ajudar divulgando, já vai fazer uma enorme diferença! ❤️</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="prizes">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Quadro da rifa</h2>
+    </div>
+    <div id="prize-grid" class="prize-grid"></div>
+    <p class="urgency-note" id="urgency-note"></p>
+  </div>
+</section>
+
+<section id="raffle">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Participe da nossa rifa 🎟️</h2>
+    </div>
+
+    <div class="price-strip">
+      <div>
+        <div style="font-size:14px;opacity:.9;">Valor por número</div>
+        <div class="value" id="price-display"></div>
+      </div>
+      <div>
+        <div style="font-size:14px;opacity:.9;">Números restantes</div>
+        <div class="value" id="remaining-display"></div>
+      </div>
+      <div style="text-align:right;font-size:14px;">
+        <div id="raffle-date"></div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><i class="dot avail"></i> Disponível</span>
+      <span><i class="dot selected"></i> Selecionado</span>
+      <span><i class="dot sold"></i> Indisponível</span>
+    </div>
+
+    <div class="number-grid" id="number-grid"></div>
+
+    <div class="selection-summary">
+      <div class="nums" id="selection-list">Nenhum número selecionado ainda.</div>
+      <div>
+        <div class="total" id="selection-total">R$ 0,00</div>
+      </div>
+    </div>
+    <div style="margin-top:18px;text-align:center;">
+      <a href="#" id="whats-cta" target="_blank" class="btn btn-whats">Falar comigo pelo WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section id="steps">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Como participar</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Escolha seus números</h3>
+        <p>Selecione um ou mais números disponíveis na grade acima.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Confirme pelo WhatsApp</h3>
+        <p>Entre em contato para confirmar a participação e receber as informações de pagamento.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Divulgue e acompanhe</h3>
+        <p>Ajude a divulgar a rifa e acompanhe as atualizações sobre o sorteio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="help">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Para onde vai a sua ajuda?</h2>
+      <p style="color:var(--ink-soft);font-size:15.5px;">Todo valor arrecadado será destinado a ajudar com as despesas veterinárias, cirurgia, medicamentos e demais cuidados necessários para a recuperação do nosso peludinho.</p>
+    </div>
+    <div class="transparency-grid">
+      <div class="stat-card">
+        <div class="num" id="stat-raised">—</div>
+        <div class="label">Valor arrecadado até agora</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" id="stat-cost">—</div>
+        <div class="label">Custo total do tratamento</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" id="stat-missing">—</div>
+        <div class="label">Ainda falta arrecadar</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progress-bar-fill"></div></div>
+      <div class="progress-label" id="progress-label"></div>
+    </div>
+    <div class="proof-note">
+      <div class="proof-gallery">
+        <img src="assets/raio-x.jpg" alt="Radiografia do Peludinho">
+        <img src="assets/comprovante1.jpg" alt="Orçamento veterinário">
+        <img src="assets/comprovante2.jpg" alt="Receita veterinária">
+        <img src="assets/comprovante3.jpg" alt="Comprovante veterinário">
+        <img src="assets/comprovante4.jpg" alt="Comprovante veterinário">
+      </div>
+      <div>Radiografia feita durante o atendimento veterinário. Mais comprovantes e atualizações sobre a recuperação serão adicionados aqui conforme forem disponibilizados.</div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Galeria</h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="assets/gatinho-encontrado.jpg" alt="Como encontramos o Peludinho" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></div>
+      <div class="gallery-item"><img src="assets/pos-cirurgia.jpg" alt="Peludinho logo após a cirurgia" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></div>
+      <div class="gallery-item"><img src="assets/recuperacao.jpg" alt="Peludinho durante a recuperação" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></div>
+    </div>
+  </div>
+</section>
+
+<section id="final">
+  <div class="wrap">
+    <h2>Uma pequena ajuda pode transformar uma vida. 🐾</h2>
+    <p>Se você não puder participar, compartilhar essa rifa já será uma grande ajuda. Obrigada a todos que estão torcendo e contribuindo para a recuperação dele! ❤️</p>
+    <div class="actions">
+      <a href="#raffle" class="btn" style="background:#fff;color:var(--accent-dark);">Participar da rifa</a>
+      <a href="#" id="share-btn" class="btn btn-ghost">Compartilhar</a>
+      <a href="#" id="whats-cta-2" target="_blank" class="btn" style="background:var(--whats);color:#fff;">Falar comigo</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <h3 style="color:#fff;font-size:20px;">Rifa do Peludinho 🐾</h3>
+      <p class="legal">Esta é uma rifa de caráter beneficente e informal entre pessoas físicas, sem fins lucrativos, destinada exclusivamente a custear despesas veterinárias. [Editar este aviso em CONFIG.legalNotice]</p>
+    </div>
+    <div style="text-align:center;">
+      <div id="qrcode"></div>
+      <div style="font-size:12px;margin-top:8px;color:#C9B49A;">Aponte a câmera para acessar</div>
+    </div>
+  </div>
+</footer>\n</div>
+
+<script>
+  
+/* ==========================================
+   CONFIGURAÇÃO DA PLANILHA
+   ========================================== */
+
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/18sROt1Cci63T4g45V3IYmXIvVNq9yj7i/gviz/tq?tqx=out:csv&gid=724302649";
+
+const TOTAL_NUMBERS = 264;
+
+const SHEET_REFRESH_MS = 30000;
+
+
+/* ==========================================
+   LEITURA DO CSV
+   ========================================== */
+
+function parseCsvLine(line) {
+  const delimiter =
+    line.includes(";") && !line.includes(",")
+      ? ";"
+      : ",";
+
+  return line.split(delimiter).map(value =>
+    value.trim().replace(/^"|"$/g, "")
+  );
+}
+
+
+function parseSheetRows(csvText) {
+  const lines = csvText
+    .split(/\r?\n/)
+    .filter(line => line.trim());
+
+  if (!lines.length) return [];
+
+  const headers = parseCsvLine(lines[0])
+    .map(header => header.toLowerCase());
+
+  const hasHeader = headers.some(header =>
+    header.includes("nome") ||
+    header.includes("número") ||
+    header.includes("numero")
+  );
+
+  const dataLines = hasHeader
+    ? lines.slice(1)
+    : lines;
+
+  const findColumn = (...names) =>
+    headers.findIndex(header =>
+      names.some(name => header.includes(name))
+    );
+
+  const nameIndex = hasHeader
+    ? findColumn("nome")
+    : 0;
+
+  const numbersIndex = hasHeader
+    ? findColumn("número", "numero", "números", "numeros")
+    : 1;
+
+  const contactIndex = hasHeader
+    ? findColumn("contato", "whatsapp", "telefone")
+    : 3;
+
+  const rows = [];
+
+  dataLines.forEach(line => {
+    const columns = parseCsvLine(line);
+
+    const name = columns[nameIndex >= 0 ? nameIndex : 0] || "";
+    const numbersRaw = columns[numbersIndex >= 0 ? numbersIndex : 1] || "";
+    const contact = columns[contactIndex >= 0 ? contactIndex : 3] || "";
+
+    const numbers = numbersRaw.match(/\d+/g) || [];
+
+    numbers.forEach(numberText => {
+      const number = parseInt(numberText, 10);
+
+      if (number >= 1 && number <= TOTAL_NUMBERS) {
+        rows.push({
+          number,
+          name,
+          contact
+        });
+      }
+    });
+  });
+
+  return rows;
+}
+
+
+/* ==========================================
+   RENDERIZAÇÃO DA TABELA
+   ========================================== */
+
+function maskContact(contact) {
+  const digits = (contact || "").replace(/\D/g, "");
+  if (digits.length < 4) return contact ? "•••••" : "—";
+  const visible = digits.slice(-2);
+  return "•".repeat(digits.length - 2) + visible;
+}
+
+function renderSheetTable(rows) {
+  const tbody = document.getElementById("sheet-table-body");
+
+  const soldMap = new Map(
+    rows.map(row => [row.number, row])
+  );
+
+  tbody.innerHTML = "";
+
+  for (let number = 1; number <= TOTAL_NUMBERS; number++) {
+    const participant = soldMap.get(number);
+
+    const tr = document.createElement("tr");
+
+    const numberCell = document.createElement("td");
+    numberCell.textContent = String(number).padStart(3, "0");
+
+    const nameCell = document.createElement("td");
+    nameCell.textContent = participant?.name || "—";
+
+    const contactCell = document.createElement("td");
+    contactCell.textContent = participant ? maskContact(participant.contact) : "—";
+
+    const statusCell = document.createElement("td");
+
+    const status = document.createElement("span");
+
+    status.className = participant
+      ? "status-pill sold"
+      : "status-pill available";
+
+    status.textContent = participant
+      ? "Indisponível"
+      : "Disponível";
+
+    statusCell.appendChild(status);
+
+    tr.appendChild(numberCell);
+    tr.appendChild(nameCell);
+    tr.appendChild(contactCell);
+    tr.appendChild(statusCell);
+
+    tbody.appendChild(tr);
+  }
+}
+
+
+/* ==========================================
+   ATUALIZAÇÃO AUTOMÁTICA
+   ========================================== */
+
+async function loadSheet() {
+  const status = document.getElementById("sheet-status");
+
+  if (!SHEET_CSV_URL) {
+    status.textContent =
+      "Configure o link da planilha para carregar os números.";
+
+    renderSheetTable([]);
+
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      SHEET_CSV_URL +
+      (SHEET_CSV_URL.includes("?") ? "&" : "?") +
+      "t=" + Date.now()
+    );
+
+    if (!response.ok) {
+      throw new Error("Erro ao carregar a planilha");
+    }
+
+    const csvText = await response.text();
+
+    const rows = parseSheetRows(csvText);
+
+    renderSheetTable(rows);
+
+    status.textContent =
+      "Planilha atualizada às " +
+      new Date().toLocaleTimeString("pt-BR");
+
+  } catch (error) {
+    console.error(error);
+
+    status.textContent =
+      "Não foi possível atualizar a planilha agora.";
+  }
+}
+
+
+
+function openTab(id, btn){
+  const home = document.getElementById('home');
+  const participants = document.getElementById('participants-tab');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(id === 'participants-tab'){
+    home.style.display='none';
+    participants.style.display='block';
+  } else {
+    home.style.display='block';
+    participants.style.display='none';
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* Inicialização */
+
+loadSheet();
+
+setInterval(loadSheet, SHEET_REFRESH_MS);
+/* ======================================================
+   CONFIG — todos os dados editáveis da rifa ficam aqui
+   ====================================================== */
+const CONFIG = {
+  raffleName: "Rifa em prol do nosso Peludinho",
+  pricePerNumber: 25.00,
+  totalNumbers: 264, // gera números de 001 a 264
+  drawDate: "Data do sorteio: a definir",
+  whatsappNumber: "5567996810140", // formato internacional, só dígitos — EDITAR
+  totalCost: 6600.00,
+  legalNotice: "Esta é uma rifa de caráter beneficente e informal entre pessoas físicas, sem fins lucrativos, destinada exclusivamente a custear despesas veterinárias.",
+  prizes: [
+    { place: "1º lugar", title: "iPhone 14 Pro 1TB (usado)", image: "assets/premio-iphone.jpg" },
+    { place: "2º lugar", title: "R$ 200 em dinheiro", icon: "💵" }
+  ],
+  // Números já vendidos/indisponíveis. O valor arrecadado é calculado
+  // automaticamente como soldNumbers.length × pricePerNumber — não precisa
+  // editar o total arrecadado à mão em nenhum outro lugar.
+  soldNumbers: [],
+
+  // Integração opcional com planilha do Google Sheets:
+  // publique a planilha como CSV (Arquivo > Compartilhar > Publicar na
+  // web > formato CSV) e cole o link gerado aqui. Se preenchido, o site
+  // busca a lista de números vendidos na planilha a cada carregamento e
+  // sobrescreve o array "soldNumbers" acima. Deixe "" para usar só o
+  // array manual.
+  sheetCsvUrl: "https://docs.google.com/spreadsheets/d/18sROt1Cci63T4g45V3IYmXIvVNq9yj7i/gviz/tq?tqx=out:csv&gid=724302649"
+};
+
+/* ---------- render prêmios ---------- */
+const prizeGrid = document.getElementById('prize-grid');
+CONFIG.prizes.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'prize-card';
+  const photoInner = p.image
+    ? `<img src="${p.image}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+    : p.icon;
+  card.innerHTML = `
+    <span class="prize-badge">${p.place}</span>
+    <div class="prize-photo">${photoInner}</div>
+    <h3>${p.title}</h3>
+    ${p.subtitle ? `<p>${p.subtitle}</p>` : ''}
+  `;
+  prizeGrid.appendChild(card);
+});
+document.getElementById('urgency-note').textContent = '';
+
+/* ---------- info da rifa ---------- */
+document.getElementById('price-display').textContent =
+  'R$ ' + CONFIG.pricePerNumber.toFixed(2).replace('.', ',');
+document.getElementById('raffle-date').textContent = CONFIG.drawDate;
+
+function formatBRL(v){
+  return 'R$ ' + v.toFixed(2).replace('.', ',');
+}
+
+function updateRaffleStats(){
+  const remaining = CONFIG.totalNumbers - CONFIG.soldNumbers.length;
+  const raised = CONFIG.soldNumbers.length * CONFIG.pricePerNumber;
+  const missing = Math.max(CONFIG.totalCost - raised, 0);
+  const percent = Math.min(Math.round((raised / CONFIG.totalCost) * 100), 100);
+
+  document.getElementById('remaining-display').textContent = remaining;
+  document.getElementById('stat-raised').textContent = formatBRL(raised);
+  document.getElementById('stat-cost').textContent = formatBRL(CONFIG.totalCost);
+  document.getElementById('stat-missing').textContent = formatBRL(missing);
+  document.getElementById('progress-bar-fill').style.width = percent + '%';
+  document.getElementById('progress-label').textContent = percent + '% do custo total já coberto';
+}
+updateRaffleStats();
+
+/* ---------- grade de números ---------- */
+const grid = document.getElementById('number-grid');
+const selected = new Set();
+
+function pad(n){ return String(n).padStart(3, '0'); }
+
+function toggleNumber(num, btn){
+  if (selected.has(num)) {
+    selected.delete(num);
+    btn.classList.remove('selected');
+  } else {
+    selected.add(num);
+    btn.classList.add('selected');
+  }
+  updateSummary();
+}
+
+function updateSummary(){
+  const list = document.getElementById('selection-list');
+  const total = document.getElementById('selection-total');
+  const nums = Array.from(selected).sort((a,b) => a-b);
+
+  if (nums.length === 0) {
+    list.textContent = 'Nenhum número selecionado ainda.';
+  } else {
+    list.textContent = 'Números selecionados: ' + nums.map(pad).join(', ');
+  }
+  const totalValue = nums.length * CONFIG.pricePerNumber;
+  total.textContent = 'R$ ' + totalValue.toFixed(2).replace('.', ',');
+
+  updateWhatsappLink(nums, totalValue);
+}
+
+function buildWhatsappUrl(nums, totalValue){
+  const numsText = nums.length ? nums.map(pad).join(', ') : '(nenhum ainda)';
+  const totalText = 'R$ ' + totalValue.toFixed(2).replace('.', ',');
+  const message =
+`Olá! Quero participar da ${CONFIG.raffleName} 🐾
+Números escolhidos: ${numsText}
+Valor total: ${totalText}`;
+  return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+
+function updateWhatsappLink(nums, totalValue){
+  const url = buildWhatsappUrl(nums, totalValue);
+  document.getElementById('whats-cta').href = url;
+  document.getElementById('whats-cta-2').href =
+    `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent('Olá! Quero saber mais sobre a ' + CONFIG.raffleName + ' 🐾')}`;
+}
+renderNumberGrid();
+
+/* ---------- compartilhar ---------- */
+document.getElementById('share-btn').addEventListener('click', (e) => {
+  e.preventDefault();
+  const shareData = {
+    title: 'Rifa do Peludinho 🐾',
+    text: 'Ajude o Peludinho a se recuperar! Participe da rifa beneficente.',
+    url: window.location.href
+  };
+  if (navigator.share) {
+    navigator.share(shareData).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('Link copiado! Compartilhe com seus amigos.');
+  }
+});
+
+/* ---------- planilha (opcional) ----------
+   Espera uma coluna com os números vendidos, um por linha (com ou sem
+   cabeçalho). Se a coluna tiver outro nome/posição, ajuste o parser abaixo. */
+async function loadSoldNumbersFromSheet(csvUrl){
+  try {
+    const res = await fetch(csvUrl);
+    const text = await res.text();
+    const nums = parseSheetRows(text)
+      .map(r => r.number);
+
+    if (nums.length) {
+      CONFIG.soldNumbers = Array.from(new Set(nums));
+      renderNumberGrid();
+      updateRaffleStats();
+    }
+  } catch (err) {
+    console.warn('Não foi possível carregar a planilha, usando dados locais.', err);
+  }
+}
+
+function renderNumberGrid(){
+  grid.innerHTML = '';
+  selected.clear();
+  for (let i = 1; i <= CONFIG.totalNumbers; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'num-btn';
+    btn.textContent = pad(i);
+    btn.dataset.num = i;
+    if (CONFIG.soldNumbers.includes(i)) {
+      btn.classList.add('sold');
+      btn.disabled = true;
+      btn.setAttribute('aria-disabled', 'true');
+    } else {
+      btn.addEventListener('click', () => toggleNumber(i, btn));
+    }
+    grid.appendChild(btn);
+  }
+  updateSummary();
+}
+
+if (CONFIG.sheetCsvUrl) {
+  loadSoldNumbersFromSheet(CONFIG.sheetCsvUrl);
+}
+
+/* ---------- QR code ---------- */
+new QRCode(document.getElementById('qrcode'), {
+  text: 'https://wa.me/5567996810140?text=Olá!%20Quero%20participar%20da%20Rifa%20do%20Peludinho%20🐾',
+  width: 110,
+  height: 110,
+  colorDark: '#3D2314',
+  colorLight: '#ffffff'
+});
+</script>
+
+</body>
+</html>
